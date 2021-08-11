@@ -14,7 +14,7 @@ const styles = {
   code: "bg-gray-100 rounded p-3 text-lg font-mono",
   grid: "flex-wrap container mt-12 flex-col sm:flex-row",
   card: "m-4 p-6 text-left text-current hover:text-blue-500 focus:text-blue-500 border border-gray-300 hover:border-blue-500 focus:border-blue-500 rounded-lg transition-colors md:w-1/3",
-  cardHeader: "font-bold mb-4 text-2xl leading-normal extra",
+  cardHeader: "font-bold mb-4 text-2xl leading-normal",
   cardParagraph: "m-0 text-xl leading-normal",
   logo: "h-4 ml-2",
 };
