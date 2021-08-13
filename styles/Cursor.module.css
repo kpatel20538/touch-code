@@ -1,0 +1,6 @@
+.cursor {
+  width: 2px;
+  height: 20px;
+  top: calc(24px * var(--cursor-row) + 2px);
+  left: calc(9.5px * var(--cursor-col));
+}
