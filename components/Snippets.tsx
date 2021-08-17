@@ -1,4 +1,3 @@
-
 import { IconType } from "react-icons";
 import {
   MdKeyboardBackspace,
@@ -9,6 +8,7 @@ import {
   MdKeyboardReturn,
   MdKeyboardTab,
   MdSpaceBar,
+  MdTextsms,
 } from "react-icons/md";
 import Button from "./Button";
 import { useStore } from "./Store";
@@ -108,12 +108,8 @@ const data = {
 
 const sections = [
   { key: "arrows", color: "primary" },
-  { key: "spacing", color: "primary" },
-  { key: "uppercase", color: "secondary" },
-  { key: "lowercase", color: "secondary-outline" },
-  { key: "digits", color: "primary" },
-  { key: "symbols", color: "primary-outline" },
-  { key: "keywords", color: "primary" },
+  { key: "spacing", color: "primary-outline" },
+  { key: "keywords", color: "secondary" },
 ] as const;
 
 function toAction(word: string, Icon?: IconType, action?: Action) {

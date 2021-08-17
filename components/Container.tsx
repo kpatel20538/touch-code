@@ -18,13 +18,13 @@ export default function Container() {
       <Button
         className="fixed bottom-8 right-8 h-12 w-12 shadow-lg"
         variant="primary"
-        onClick={() => dispatch({ type: "showCommandBoard" })}
+        onClick={() => dispatch({ type: "toggleMode", mode: "command" })}
       >
         <MdEdit />
       </Button>
       <BottomSheet
-        isActive={state.isCommandBoardShowing}
-        onClose={() => dispatch({ type: "hideCommandBoard" })}
+        isActive={state.mode === "command"}
+        onClose={() => dispatch({ type: "toggleMode", mode: "view" })}
       >
         <Snippets />
       </BottomSheet>

@@ -1,7 +1,7 @@
 import { expect, it, describe } from "@jest/globals";
 import { reducer, Action, State } from "..";
 import { BUFFER } from "../__fixtures__/buffer";
-import { EMPTY, MULTI_LINE } from "../__fixtures__/state";
+import { MULTI_LINE } from "../__fixtures__/state";
 
 describe("insertWord action", () => {
   it("can insert word in start of line", () => {
@@ -35,7 +35,6 @@ describe("insertWord action", () => {
   });
 });
 
-
 describe("insertBuffer action", () => {
   it("can insert buffer in the begining of the document", () => {
     const state: State = { ...MULTI_LINE, cursor: [0, 0] };
@@ -50,7 +49,7 @@ describe("insertBuffer action", () => {
       { key: "1", text: "Gamma Delta" },
       { key: "2", text: "Epsilon Zeta" },
       { key: "3", text: "Eta Theta" },
-      { key: "4", text: "Iota Kappa" }
+      { key: "4", text: "Iota Kappa" },
     ]);
     expect(cursor).toEqual([2, 11]);
   });
@@ -86,9 +85,24 @@ describe("insertBuffer action", () => {
       { key: "b1", text: "Yellow Green" },
       { key: "b2", text: "Gold Silver Zeta" },
       { key: "3", text: "Eta Theta" },
-      { key: "4", text: "Iota Kappa" }
+      { key: "4", text: "Iota Kappa" },
     ]);
     expect(cursor).toEqual([4, 11]);
   });
 });
 
+describe("updateLine action", () => {
+  it("should update the current line and cursor", () => {
+    const state: State = { ...MULTI_LINE, cursor: [1, 5] };
+    const action: Action = {
+      type: "updateLine",
+      text: "Red Blue Green",
+      col: 7,
+    };
+
+    const { buffer, cursor } = reducer(state, action);
+
+    expect(buffer[1].text).toBe("Red Blue Green");
+    expect(cursor).toEqual([1, 7]);
+  });
+});

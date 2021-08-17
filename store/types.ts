@@ -1,3 +1,12 @@
+export type AnyAction = { type: string };
+export type Reducer<S, A> = (state: S, action: A) => S;
+
+export type Line = { key: string; text: string };
+export type TextBuffer = Line[];
+
+export type Position = [number, number];
+export type Mode = "view" | "edit" | "command";
+
 export type CursorLeftAction = {
   type: "cursorLeft";
 };
@@ -29,16 +38,19 @@ export type InsertBufferAction = {
   buffer: TextBuffer;
 };
 
+export type UpdateLineAction = {
+  type: "updateLine";
+  text: string;
+  col: number;
+};
+
 export type BackSpaceAction = {
   type: "backspace";
 };
 
-export type ShowCommandBoardAction = {
-  type: "showCommandBoard";
-};
-
-export type HideCommandBoardAction = {
-  type: "hideCommandBoard";
+export type ToggleModeAction = {
+  type: "toggleMode";
+  mode: Mode;
 };
 
 export type Action =
@@ -49,20 +61,12 @@ export type Action =
   | CursorMoveAction
   | InsertWordAction
   | InsertBufferAction
+  | UpdateLineAction
   | BackSpaceAction
-  | ShowCommandBoardAction
-  | HideCommandBoardAction;
-
-export type Line = { key: string; text: string };
-export type TextBuffer = Line[];
-
-export type Position = [number, number];
+  | ToggleModeAction;
 
 export type State = {
   buffer: TextBuffer;
   cursor: Position;
-  isCommandBoardShowing: boolean;
+  mode: Mode;
 };
-
-export type AnyAction = { type: string };
-export type Reducer<S, A> = (state: S, action: A) => S;

@@ -1,5 +1,11 @@
 import produce from "immer";
-import { InsertBufferAction, InsertWordAction, Reducer, State } from "../types";
+import {
+  InsertBufferAction,
+  InsertWordAction,
+  Reducer,
+  State,
+  UpdateLineAction,
+} from "../types";
 
 export const insertWord: Reducer<State, InsertWordAction> = produce(
   (draft, { word }) => {
@@ -32,18 +38,21 @@ export const insertBuffer: Reducer<State, InsertBufferAction> = produce(
     const trailingLine = {
       key: trailingInsert.key,
       text: trailingInsert.text + trailingText,
-    }
-    
-    draft.buffer.splice(
-      row,
-      1,
-      leadingLine,
-      ...innerLines,
-      trailingLine
-    );
+    };
+
+    draft.buffer.splice(row, 1, leadingLine, ...innerLines, trailingLine);
 
     const lastRow = row + buffer.length - 1;
     const lastCol = trailingInsert.text.length;
     draft.cursor = [lastRow, lastCol];
+  }
+);
+
+export const updateLine: Reducer<State, UpdateLineAction> = produce(
+  (draft, { text, col }) => {
+    const [row] = draft.cursor;
+    const currentLine = draft.buffer[row];
+    currentLine.text = text;
+    draft.cursor = [row, col];
   }
 );
