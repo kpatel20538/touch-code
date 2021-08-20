@@ -62,10 +62,9 @@ export default function Keyboard({
       ref={ref}
       spellCheck={false}
       className={classNames(
-        "absolute w-px h-px font-mono text-transparent bg-transparent caret-transparent outline-none pointer-events-none user-select-none", // left-0
+        "absolute w-px h-px font-mono text-transparent bg-transparent caret-transparent outline-none pointer-events-none user-select-none resize-none",
         cellStyles["top-cell"],
         cellStyles["left-cell"]
-        // cellStyles["w-cell"]
       )}
       style={{
         "--cell-top": row,
