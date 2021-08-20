@@ -1,14 +1,7 @@
+import { useState, useEffect } from "react";
 import classNames from "classnames";
-import { useEffect } from "react";
-import { useState } from "react";
 import styles from "../styles/Cursor.module.css";
-
-declare module "csstype" {
-  interface Properties {
-    "--cursor-row"?: number;
-    "--cursor-col"?: number;
-  }
-}
+import cellStyles from "../styles/Cell.module.css";
 
 type Props = {
   row: number;
@@ -26,13 +19,17 @@ export default function Cursor({ row, col }: Props) {
   return (
     <span
       className={classNames(
-        "inline-block bg-purple-700 absolute",
+        "absolute bg-purple-700",
+        cellStyles['top-cell'],
+        cellStyles['left-cell'],
+        cellStyles['h-cell'],
         visible ? "visible" : "invisible",
-        styles["cursor"]
+        styles.cursor,
       )}
       style={{
-        "--cursor-row": row,
-        "--cursor-col": col,
+        '--cell-top': row,
+        '--cell-left': col,
+        '--cell-height': 1
       }}
     />
   );

@@ -1,5 +1,6 @@
 import produce from "immer";
 import { BackSpaceAction, Reducer, State } from "../types";
+import { updateCursor } from "./cursors";
 
 export const backspace: Reducer<State, BackSpaceAction> = produce((draft) => {
   const [row, col] = draft.cursor;
@@ -9,7 +10,7 @@ export const backspace: Reducer<State, BackSpaceAction> = produce((draft) => {
     const line = draft.buffer[row];
     line.text = line.text.slice(0, nextCol) + line.text.slice(col);
 
-    draft.cursor = [row, nextCol];
+    updateCursor(draft, [row, nextCol]);
   } else if (row > 0) {
     const nextRow = row - 1;
     const prevLine = draft.buffer[nextRow];
@@ -20,6 +21,6 @@ export const backspace: Reducer<State, BackSpaceAction> = produce((draft) => {
     prevLine.text = prevLine.text + line.text;
     draft.buffer.splice(row, 1);
 
-    draft.cursor = [nextRow, nextCol];
+    updateCursor(draft, [nextRow, nextCol]);
   }
 });

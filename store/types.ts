@@ -6,6 +6,18 @@ export type TextBuffer = Line[];
 
 export type Position = [number, number];
 export type Mode = "view" | "edit" | "command";
+export type Selection = {
+  selecting: "alpha" | "beta" | null;
+  alpha: Position;
+  beta: Position;
+};
+
+export type State = {
+  buffer: TextBuffer;
+  cursor: Position;
+  mode: Mode;
+  selection: Selection
+};
 
 export type CursorLeftAction = {
   type: "cursorLeft";
@@ -53,6 +65,32 @@ export type ToggleModeAction = {
   mode: Mode;
 };
 
+export type SelectStartAction = {
+  type: "selectStart";
+
+  knob: "alpha" | "beta";
+};
+
+export type SelectEndAction = {
+  type: "selectEnd";
+};
+
+export type SelectMoveAction = {
+  type: "selectMove";
+  position: Position;
+};
+
+export type SelectWordAction = {
+  type: "selectWord";
+  position: Position;
+};
+
+export type SelectionAction =
+  | SelectStartAction
+  | SelectMoveAction
+  | SelectEndAction
+  | SelectWordAction;
+
 export type Action =
   | CursorUpAction
   | CursorDownAction
@@ -63,10 +101,5 @@ export type Action =
   | InsertBufferAction
   | UpdateLineAction
   | BackSpaceAction
-  | ToggleModeAction;
-
-export type State = {
-  buffer: TextBuffer;
-  cursor: Position;
-  mode: Mode;
-};
+  | ToggleModeAction
+  | SelectionAction

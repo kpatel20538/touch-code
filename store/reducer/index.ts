@@ -10,6 +10,7 @@ import {
   cursorRight,
   cursorUp,
 } from "./cursors";
+import { selectStart, selectEnd, selectMove, selectWord } from "./select";
 
 export const reducer: Reducer<State, Action> = match({
   insertWord,
@@ -22,4 +23,8 @@ export const reducer: Reducer<State, Action> = match({
   cursorRight,
   cursorUp,
   toggleMode,
+  selectStart,
+  selectEnd,
+  selectMove,
+  selectWord,
 });

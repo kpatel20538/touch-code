@@ -1,0 +1,15 @@
+.top-cell {
+  top: calc(var(--block-height) * var(--cell-top));
+}
+
+.left-cell {
+  left: calc(var(--block-width) * var(--cell-left));
+}
+
+.h-cell {
+  height: calc(var(--block-height) * var(--cell-height));
+}
+
+.w-cell {
+  width: calc(var(--block-width) * var(--cell-width));
+}

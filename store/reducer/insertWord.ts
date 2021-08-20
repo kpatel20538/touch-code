@@ -6,6 +6,7 @@ import {
   State,
   UpdateLineAction,
 } from "../types";
+import { updateCursor } from "./cursors";
 
 export const insertWord: Reducer<State, InsertWordAction> = produce(
   (draft, { word }) => {
@@ -15,7 +16,7 @@ export const insertWord: Reducer<State, InsertWordAction> = produce(
     const trailing = line.text.substring(col);
 
     line.text = leading + word + trailing;
-    draft.cursor = [row, col + word.length];
+    updateCursor(draft, [row, col + word.length]);
   }
 );
 
@@ -44,7 +45,7 @@ export const insertBuffer: Reducer<State, InsertBufferAction> = produce(
 
     const lastRow = row + buffer.length - 1;
     const lastCol = trailingInsert.text.length;
-    draft.cursor = [lastRow, lastCol];
+    updateCursor(draft, [lastRow, lastCol]);
   }
 );
 
@@ -53,6 +54,6 @@ export const updateLine: Reducer<State, UpdateLineAction> = produce(
     const [row] = draft.cursor;
     const currentLine = draft.buffer[row];
     currentLine.text = text;
-    draft.cursor = [row, col];
+    updateCursor(draft, [row, col]);
   }
 );

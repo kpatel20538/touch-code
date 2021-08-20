@@ -3,13 +3,23 @@ import { State } from "../types";
 export const EMPTY: State = {
   buffer: [{ key: "0", text: "" }],
   cursor: [0, 0],
-  mode: 'view',
+  mode: "view",
+  selection: {
+    selecting: null,
+    alpha: [0, 0],
+    beta: [0, 0],
+  },
 };
 
 export const SINGLE_LINE: State = {
-  buffer: [{ key: "0", text: "Alpha Beta" }],
+  buffer: [{ key: "0", text: "Reb. Blue. Green." }],
   cursor: [0, 0],
-  mode: 'view',
+  mode: "view",
+  selection: {
+    selecting: null,
+    alpha: [0, 0],
+    beta: [0, 0],
+  },
 };
 
 export const MULTI_LINE: State = {
@@ -21,5 +31,10 @@ export const MULTI_LINE: State = {
     { key: "4", text: "Iota Kappa" },
   ],
   cursor: [0, 0],
-  mode: 'view',
+  mode: "view",
+  selection: {
+    selecting: null,
+    alpha: [0, 0],
+    beta: [0, 0],
+  },
 };

@@ -1,0 +1,4 @@
+.selectionKnob {
+  height: calc(var(--block-height) * 0.75);
+  width: calc(var(--block-height) * 0.75);
+}

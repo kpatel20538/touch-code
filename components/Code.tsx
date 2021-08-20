@@ -1,50 +1,74 @@
-import { Fragment } from "react";
-import { Action } from "../store";
+import { insertWord } from "../store/operations";
+import {
+  getOrderedSelection,
+  getSelectionRange,
+} from "../store/selectors/select";
+import { blockStyle, mousePosition, touchPosition } from "../lib/position";
 import { useStore } from "./Store";
 import { useKeyboardController } from "./KeyboardController";
 import Cursor from "./Cursor";
 import Keyboard from "./Keyboard";
-import { insertWord } from "../store/operations";
-import styles from "../styles/Code.module.css";
 import classNames from "classnames";
+import MonospaceArea from "./MonospaceArea";
+import SelectionArea from "./Selection/SelectionArea";
+import styles from "../styles/Code.module.css";
+import SelectionKnob from "./Selection/SelectionKnob";
 
 export default function Code() {
   const { state, dispatch } = useStore();
   const { ref } = useKeyboardController();
 
+  const [start, end] = getOrderedSelection(state);
+  const { selectionStart, selectionEnd, selectionDirection } =
+    getSelectionRange(state);
   return (
-    <div className={classNames("relative", styles.code)}>
-      <div
-        className="font-mono whitespace-pre"
-        onClick={(event) => {
-          const element = event.target as HTMLElement;
-          const { top, left } = element.getBoundingClientRect();
-          const row = ~~((event.clientY - top) / 24);
-          const col = ~~((event.clientX - left) / 9.6);
-
+    <div
+      className={classNames("relative", styles.code)}
+      style={blockStyle}
+      onMouseMove={mousePosition((position) =>
+        dispatch({ type: "selectMove", position })
+      )}
+      onMouseUp={() => dispatch({ type: "selectEnd" })}
+      onTouchMove={touchPosition((position) => dispatch({ type: "selectMove", position }))}
+      onTouchEnd={() => dispatch({ type: "selectEnd" })}
+    >
+      <MonospaceArea
+        buffer={state.buffer}
+        onLongPress={(position) => {
+          dispatch({
+            type: "selectWord",
+            position,
+          });
+        }}
+        onPress={(position) => {
           dispatch({
             type: "cursorMove",
-            position: [row, col],
+            position,
           });
           dispatch({
             type: "toggleMode",
             mode: "edit",
           });
-          ref.current?.focus(); // iOS compat
+          ref.current?.focus();
         }}
-      >
-        {state.buffer.map(({ text, key }) => (
-          <Fragment key={key}>
-            {text}
-            <br />
-          </Fragment>
-        ))}
-      </div>
+      />
+      <SelectionArea start={start} end={end} buffer={state.buffer} />
       <Cursor row={state.cursor[0]} col={state.cursor[1]} />
+      <SelectionKnob
+        row={state.selection.alpha[0]}
+        col={state.selection.alpha[1]}
+        onPressStart={() => dispatch({ type: "selectStart", knob: "alpha" })}
+      />
+      <SelectionKnob
+        row={state.selection.beta[0]}
+        col={state.selection.beta[1]}
+        onPressStart={() => dispatch({ type: "selectStart", knob: "beta" })}
+      />
       <Keyboard
         isFocused={state.mode === "edit"}
-        selectionStart={state.cursor[1]}
-        selectionEnd={state.cursor[1]}
+        selectionStart={selectionStart}
+        selectionEnd={selectionEnd}
+        selectionDirection={selectionDirection}
         value={state.buffer[state.cursor[0]].text}
         row={state.cursor[0]}
         onBlur={() => dispatch({ type: "toggleMode", mode: "view" })}

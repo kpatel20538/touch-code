@@ -1,7 +1,0 @@
-.keyboard {
-  top: calc(var(--block-height) * var(--keyboard-row));
-  left: 0;
-
-  width: calc(var(--block-width) * var(--keyboard-width));
-  height: var(--block-height);
-}
