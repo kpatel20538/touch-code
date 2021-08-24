@@ -24,7 +24,7 @@ export default function Button({ className, variant, ...props }: Props) {
       {...props}
       className={classNames(
         className,
-        "px-4 py-2 font-semibold rounded-full shadow",
+        "px-4 py-2 font-semibold rounded-full shadow flex justify-center items-center",
         variants[variant]
       )}
     />

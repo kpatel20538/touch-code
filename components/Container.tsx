@@ -1,4 +1,4 @@
-import { MdEdit } from "react-icons/md";
+import { MdCode } from "react-icons/md";
 import BottomSheet from "./BottomSheet";
 import Button from "./Button";
 import Code from "./Code";
@@ -16,11 +16,11 @@ export default function Container() {
         <Code />
       </div>
       <Button
-        className="fixed bottom-8 right-8 h-12 w-12 shadow-lg"
+        className="fixed bottom-8 right-8 h-14 w-14 shadow-lg"
         variant="primary"
         onClick={() => dispatch({ type: "toggleMode", mode: "command" })}
       >
-        <MdEdit />
+        <MdCode size="1.5em" />
       </Button>
       <BottomSheet
         isActive={state.mode === "command"}
