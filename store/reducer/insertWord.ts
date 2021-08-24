@@ -9,14 +9,14 @@ import {
 import { updateCursor } from "./cursors";
 
 export const insertWord: Reducer<State, InsertWordAction> = produce(
-  (draft, { word }) => {
+  (draft, { word, start }) => {
     const [row, col] = draft.cursor;
     const line = draft.buffer[row];
     const leading = line.text.substring(0, col);
     const trailing = line.text.substring(col);
 
     line.text = leading + word + trailing;
-    updateCursor(draft, [row, col + word.length]);
+    updateCursor(draft, [row, col + (start ?? word.length)]);
   }
 );
 

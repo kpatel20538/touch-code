@@ -25,7 +25,6 @@ const data = {
     "default",
     "delete",
     "do",
-    "double",
     "else",
     "false",
     "finally",
@@ -35,7 +34,6 @@ const data = {
     "in",
     "instanceof",
     "let",
-    "long",
     "new",
     "null",
     "return",
@@ -54,7 +52,10 @@ const data = {
     "extends",
     "import",
     "super",
-  ].map((word) => toAction(word)),
+  ].map((word) => toAction({ word: word + " " })),
+  braces: [toAction({ word: "=> " })].concat(
+    ["{}", "[]", "()", '""', "''"].map((word) => toAction({ word, start: 1 }))
+  ),
   symbols: [
     ".",
     ";",
@@ -84,25 +85,45 @@ const data = {
     "#",
     "@",
     "\\",
-  ].map((word) => toAction(word)),
-  digits: "0123456789".split("").map((word) => toAction(word)),
+  ].map((word) => toAction({ word })),
+  digits: "0123456789".split("").map((word) => toAction({ word })),
   uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     .split("")
-    .map((word) => toAction(word)),
+    .map((word) => toAction({ word })),
   lowercase: "abcdefghijklmnopqrstuvwxyz"
     .split("")
-    .map((word) => toAction(word)),
+    .map((word) => toAction({ word })),
   arrows: [
-    toAction("left", MdKeyboardArrowLeft, { type: "cursorLeft" }),
-    toAction("right", MdKeyboardArrowRight, { type: "cursorRight" }),
-    toAction("up", MdKeyboardArrowUp, { type: "cursorUp" }),
-    toAction("down", MdKeyboardArrowDown, { type: "cursorDown" }),
+    toAction({
+      word: "left",
+      Icon: MdKeyboardArrowLeft,
+      action: { type: "cursorLeft" },
+    }),
+    toAction({
+      word: "right",
+      Icon: MdKeyboardArrowRight,
+      action: { type: "cursorRight" },
+    }),
+    toAction({
+      word: "up",
+      Icon: MdKeyboardArrowUp,
+      action: { type: "cursorUp" },
+    }),
+    toAction({
+      word: "down",
+      Icon: MdKeyboardArrowDown,
+      action: { type: "cursorDown" },
+    }),
   ],
   spacing: [
-    toAction(" ", MdSpaceBar),
-    toAction("    ", MdKeyboardTab),
-    toAction("\n", MdKeyboardReturn),
-    toAction("backspace", MdKeyboardBackspace, { type: "backspace" }),
+    toAction({ word: " ", Icon: MdSpaceBar }),
+    toAction({ word: "    ", Icon: MdKeyboardTab }),
+    toAction({ word: "\n", Icon: MdKeyboardReturn }),
+    toAction({
+      word: "backspace",
+      Icon: MdKeyboardBackspace,
+      action: { type: "backspace" },
+    }),
   ],
 };
 
@@ -110,13 +131,21 @@ const sections = [
   { key: "arrows", color: "primary" },
   { key: "spacing", color: "primary-outline" },
   { key: "keywords", color: "secondary" },
+  { key: "braces", color: "secondary-outline" },
 ] as const;
 
-function toAction(word: string, Icon?: IconType, action?: Action) {
+type ToActionOptions = {
+  word: string;
+  Icon?: IconType;
+  action?: Action;
+  start?: number;
+};
+
+function toAction({ word, Icon, action, start }: ToActionOptions) {
   return {
     key: word,
-    label: Icon ? <Icon size="1.5rem" /> : word,
-    action: () => action ?? operations.insertWord(word),
+    label: Icon ? <Icon size="1.5rem" /> : word.trim(),
+    action: () => action ?? operations.insertWord(word, start),
   };
 }
 

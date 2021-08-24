@@ -43,6 +43,7 @@ export type CursorMoveAction = {
 export type InsertWordAction = {
   type: "insertWord";
   word: string;
+  start?: number;
 };
 
 export type InsertBufferAction = {
