@@ -56,25 +56,23 @@ export default function Code() {
       />
       <SelectionArea start={start} end={end} buffer={state.buffer} />
       <Cursor row={state.cursor[0]} col={state.cursor[1]} />
-      {state.selection.alpha[0] !== state.selection.beta[0] &&
-        state.selection.alpha[1] !== state.selection.beta[1] && (
-          <>
-            <SelectionKnob
-              row={state.selection.alpha[0]}
-              col={state.selection.alpha[1]}
-              onPressStart={() =>
-                dispatch({ type: "selectStart", knob: "alpha" })
-              }
-            />
-            <SelectionKnob
-              row={state.selection.beta[0]}
-              col={state.selection.beta[1]}
-              onPressStart={() =>
-                dispatch({ type: "selectStart", knob: "beta" })
-              }
-            />
-          </>
-        )}
+      {(state.selection.alpha[0] !== state.selection.beta[0] ||
+        state.selection.alpha[1] !== state.selection.beta[1]) && (
+        <>
+          <SelectionKnob
+            row={state.selection.alpha[0]}
+            col={state.selection.alpha[1]}
+            onPressStart={() =>
+              dispatch({ type: "selectStart", knob: "alpha" })
+            }
+          />
+          <SelectionKnob
+            row={state.selection.beta[0]}
+            col={state.selection.beta[1]}
+            onPressStart={() => dispatch({ type: "selectStart", knob: "beta" })}
+          />
+        </>
+      )}
       <Keyboard
         isFocused={state.mode === "edit"}
         selectionStart={selectionStart}
